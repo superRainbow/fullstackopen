@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import Course from './components/course';
+import TodoList from './components/todolist';
 
 const App = () => {
   const courses = [
@@ -57,9 +58,11 @@ ReactDOM.render(
   <BrowserRouter>
     <h1>功能</h1>
     <ul>
-        <li><Link to="/">基本 React 練習</Link></li>
+        <li><Link to="/index">基本 React 練習</Link></li>
+        <li><Link to="/todolist">todolist</Link></li>
     </ul>
-    <Route path="/" component={App} />
+    <Route path="/index" component={App} />
+    <Route path="/todolist" component={TodoList} />
   </BrowserRouter>,
   document.getElementById('root')
 );
