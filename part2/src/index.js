@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
-import Course from './course/course';
+import Course from './components/course';
 
 const App = () => {
   const courses = [
@@ -52,6 +53,13 @@ const App = () => {
   return <div>{ courses.map((course, index) => <Course key={index} course={course} />) }</div>
 };
 
-ReactDOM.render(<App />, 
+ReactDOM.render(
+  <BrowserRouter>
+    <h1>功能</h1>
+    <ul>
+        <li><Link to="/">基本 React 練習</Link></li>
+    </ul>
+    <Route path="/" component={App} />
+  </BrowserRouter>,
   document.getElementById('root')
 );
