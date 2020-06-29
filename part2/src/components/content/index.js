@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Part from '../part/part';
+import Part from '../part';
 
 const Content = ({data}) => (
   <ul>
