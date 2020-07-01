@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Header from '../header';
+import personsServer from '../../services/persons';
 
-const baseUrl = 'http://localhost:3001/persons';
 const Link = styled.a`
     color: red;
     margin-left: 20px;
@@ -17,8 +16,8 @@ const TodoList = () => {
   const [ filterName, setFilterName ] = useState('');
 
   useEffect(() => {
-    axios
-      .get(baseUrl)
+    personsServer
+      .getAll()
       .then(response => {
         setPersons(response.data);
       });
@@ -42,20 +41,22 @@ const TodoList = () => {
       alert(`${newName} is already added to phonebook`);
     } else {
       const addPerson = { id: persons.length + 1,name: newName, number: newNumber };
-      axios
-        .post(baseUrl, addPerson)
+
+      personsServer
+        .add(addPerson)
         .then(response => {
-          setPersons(persons.concat(response.data));
-          setNewName('');
-          setNewNumber('');
+            setPersons(persons.concat(response.data));
+            setNewName('');
+            setNewNumber('');
         });
     }
   };
 
   const remove = (event) => {
     const id = parseInt(event.target.dataset.id, 10);
-    axios
-      .delete(`${baseUrl}/${id}`)
+
+    personsServer
+      .remove(id)
       .then(response => {
         setPersons(persons.filter(person => person.id !== id));
       });
