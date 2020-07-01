@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import Course from './components/course';
 import TodoList from './components/todolist';
+import FilterCountries from './components/filterCountries';
 
 const App = () => {
   const courses = [
@@ -60,9 +61,11 @@ ReactDOM.render(
     <ul>
         <li><Link to="/index">基本 React 練習</Link></li>
         <li><Link to="/todolist">todolist</Link></li>
+        <li><Link to="/filterCountries">filter Countries</Link></li>
     </ul>
     <Route path="/index" component={App} />
     <Route path="/todolist" component={TodoList} />
+    <Route path="/filterCountries" component={FilterCountries} />
   </BrowserRouter>,
   document.getElementById('root')
 );
