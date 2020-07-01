@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import Header from '../header';
 
+const baseUrl = 'http://localhost:3001/persons';
 const Link = styled.a`
     color: red;
     margin-left: 20px;
 `;
 
 const TodoList = () => {
-  const [ persons, setPersons ] = useState([{ id: `id-0`,name: 'Arto Hellas', number: '02-2899-445' }]);
+  const [ persons, setPersons ] = useState([]);
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filterName, setFilterName ] = useState('');
+
+  useEffect(() => {
+    axios
+      .get(baseUrl)
+      .then(response => {
+        setPersons(response.data);
+      });
+  }, []);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -31,14 +41,24 @@ const TodoList = () => {
     if (persons.filter(person => person.name === newName).length > 0) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons(persons.concat({ id: `id-${persons.length}`,name: newName, number: newNumber }));
-      setNewName('');
-      setNewNumber('');
+      const addPerson = { id: persons.length + 1,name: newName, number: newNumber };
+      axios
+        .post(baseUrl, addPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data));
+          setNewName('');
+          setNewNumber('');
+        });
     }
   };
 
   const remove = (event) => {
-    setPersons(persons.filter(person => person.id !== event.target.dataset.id));
+    const id = parseInt(event.target.dataset.id, 10);
+    axios
+      .delete(`${baseUrl}/${id}`)
+      .then(response => {
+        setPersons(persons.filter(person => person.id !== id));
+      });
   };
 
   return (
