@@ -45,7 +45,7 @@ const TodoList = () => {
       personsServer
         .add(addPerson)
         .then(response => {
-            setPersons(persons.concat(response.data));
+            setPersons(response.data);
             setNewName('');
             setNewNumber('');
         });
